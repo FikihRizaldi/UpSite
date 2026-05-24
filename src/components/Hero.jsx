@@ -1,10 +1,20 @@
+import { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { ScrollReveal } from './AnimationWrappers';
+import WebsiteMiniature from './WebsiteMiniature';
 
 export default function Hero() {
   const { t } = useApp();
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const checkWidth = () => setIsDesktop(window.innerWidth >= 1024);
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
 
   return (
     <header className="relative pt-40 pb-48 lg:pb-64 bg-gradient-to-br from-primary to-secondary overflow-hidden transition-colors duration-500">
@@ -42,39 +52,40 @@ export default function Hero() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal direction="up" delay={0.2} className="hidden lg:flex relative justify-center items-center h-[400px]">
-            {/* Mockup Container */}
-            <div className="relative w-full max-w-[480px]">
-              {/* Laptop Screen */}
-              <motion.div 
-                animate={{ y: [-5, 5, -5] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="relative bg-slate-100 rounded-t-xl border-[10px] border-slate-300 shadow-2xl overflow-hidden aspect-[16/10] z-10"
-              >
-                <div className="w-full h-full bg-slate-900 flex justify-center items-center text-white font-bold tracking-widest text-lg shadow-inner">
-                  WEB PORTFOLIO
-                </div>
-              </motion.div>
-              {/* Laptop Base */}
-              <motion.div 
-                animate={{ y: [-5, 5, -5] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="relative w-[110%] -left-[5%] h-4 bg-slate-400 rounded-b-xl z-20 shadow-xl"
-              ></motion.div>
-              
-              {/* Phone Mockup */}
-              <motion.div 
-                animate={{ y: [5, -5, 5] }}
-                transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                className="absolute -right-4 -bottom-10 w-[100px] h-[200px] bg-white rounded-2xl border-[6px] border-slate-200 shadow-2xl z-30 overflow-hidden"
-              >
-                <div className="w-full h-full bg-secondary flex flex-col justify-center items-center text-white text-[10px] font-semibold p-3 text-center">
-                  <div className="w-full h-16 bg-white/20 rounded mb-2"></div>
-                  MOBILE
-                </div>
-              </motion.div>
-            </div>
-          </ScrollReveal>
+          {isDesktop && (
+            <ScrollReveal direction="up" delay={0.2} className="hidden lg:flex relative justify-center items-center h-[400px]">
+              {/* Mockup Container */}
+              <div className="relative w-full max-w-[480px]">
+                {/* Laptop Screen */}
+                <motion.div 
+                  animate={{ y: [-5, 5, -5] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  className="relative bg-slate-100 rounded-t-xl border-[10px] border-slate-300 shadow-2xl overflow-hidden aspect-[16/10] z-10"
+                >
+                  <div className="w-full h-full relative bg-white">
+                    <WebsiteMiniature variant="desktop" />
+                  </div>
+                </motion.div>
+                {/* Laptop Base */}
+                <motion.div 
+                  animate={{ y: [-5, 5, -5] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                  className="relative w-[110%] -left-[5%] h-4 bg-slate-400 rounded-b-xl z-20 shadow-xl"
+                ></motion.div>
+                
+                {/* Phone Mockup */}
+                <motion.div 
+                  animate={{ y: [5, -5, 5] }}
+                  transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+                  className="absolute -right-4 -bottom-10 w-[100px] h-[200px] bg-white rounded-2xl border-[6px] border-slate-200 shadow-2xl z-30 overflow-hidden"
+                >
+                  <div className="w-full h-full relative">
+                    <WebsiteMiniature variant="mobile" />
+                  </div>
+                </motion.div>
+              </div>
+            </ScrollReveal>
+          )}
 
         </div>
       </div>

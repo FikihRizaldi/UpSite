@@ -1,6 +1,6 @@
-import { LayoutTemplate, Palette, Globe } from 'lucide-react';
+import { Palette, Globe } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 
 export default function Navbar() {
   const { theme, lang, toggleTheme, toggleLang, t } = useApp();
@@ -13,8 +13,8 @@ export default function Navbar() {
       className="absolute top-0 left-0 w-full z-50 py-6"
     >
       <div className="container mx-auto px-6 max-w-6xl flex justify-between items-center">
-        <a href="#" className="flex items-center gap-2 text-white text-2xl font-bold no-underline">
-          <LayoutTemplate size={28} />
+        <a href="#" className="flex items-center gap-3 text-white text-2xl font-bold no-underline">
+          <img src="/IC_putih.png" alt="UpSite Logo" width="36" height="36" className="h-9 w-auto object-contain" />
           UpSite
         </a>
 

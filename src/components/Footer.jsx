@@ -1,10 +1,26 @@
-import { LayoutTemplate, MessageCircle, Globe, Mail, Phone, Link, Send } from 'lucide-react';
+import { MessageCircle, Globe, Mail, Phone, Link, Send } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { ScrollReveal } from './AnimationWrappers';
+
+const InstagramIcon = ({ size }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 
 export default function Footer() {
   const { t } = useApp();
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    const email = e.target.elements[0].value;
+    const bodyText = `Halo, tolong tambahkan email ini ke daftar newsletter UpSite: ${email}`;
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=fikihrz31@gmail.com&su=Berlangganan%20Newsletter&body=${encodeURIComponent(bodyText)}`, '_blank');
+    e.target.reset();
+  };
 
   return (
     <div className="relative bg-[#0B1120] text-[#94A3B8] mt-32">
@@ -26,7 +42,7 @@ export default function Footer() {
                 "Let's discuss your ideas with our expert team. Get a free consultation today."
               )}
             </p>
-            <a href="#" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=fikihrz31@gmail.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all">
               <MessageCircle size={22} />
               {t('Hubungi Kami', 'Contact Us')}
             </a>
@@ -40,8 +56,8 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             
             <div className="lg:col-span-1">
-              <h2 className="text-white text-2xl font-bold flex items-center gap-2 mb-6">
-                <LayoutTemplate size={28} /> UpSite
+              <h2 className="text-white text-2xl font-bold flex items-center gap-3 mb-6">
+                <img src="/icon.png" alt="UpSite Logo" width="36" height="36" loading="lazy" className="h-9 w-auto object-contain" /> UpSite
               </h2>
               <p className="leading-relaxed mb-8 pr-4 text-sm md:text-base">
                 {t(
@@ -50,20 +66,27 @@ export default function Footer() {
                 )}
               </p>
               <div className="flex gap-4">
-                {[Globe, Mail, Phone, Link].map((Icon, i) => (
+                {[
+                  { icon: InstagramIcon, href: 'https://www.instagram.com/fikihrz_?igsh=eDVzdDZjYWQ5dWJp' },
+                  { icon: Mail, href: 'https://mail.google.com/mail/?view=cm&fs=1&to=fikihrz31@gmail.com' },
+                  { icon: Globe, href: '#' }
+                ].map((item, i) => (
                   <a 
                     key={i} 
-                    href="#" 
+                    href={item.href} 
+                    target={item.href !== '#' ? "_blank" : undefined}
+                    rel="noreferrer"
+                    aria-label={`Visit our ${item.icon.name || 'social'} page`}
                     className="w-10 h-10 bg-white/5 hover:bg-primary rounded-full flex justify-center items-center text-[#94A3B8] hover:text-white hover:-translate-y-1 transition-all"
                   >
-                    <Icon size={18} />
+                    <item.icon size={18} />
                   </a>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 className="text-white text-lg font-semibold mb-6">{t('Layanan', 'Services')}</h4>
+              <h3 className="text-white text-lg font-semibold mb-6">{t('Layanan', 'Services')}</h3>
               <ul className="space-y-4 text-sm md:text-base">
                 {['Web Development', 'UI/UX Design', 'E-Commerce Setup', 'SEO Optimization'].map((link, i) => (
                   <li key={i}>
@@ -76,16 +99,16 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="text-white text-lg font-semibold mb-6">{t('Perusahaan', 'Company')}</h4>
+              <h3 className="text-white text-lg font-semibold mb-6">{t('Perusahaan', 'Company')}</h3>
               <ul className="space-y-4 text-sm md:text-base">
                 {[
-                  { id: 'Tentang Kami', en: 'About Us' },
-                  { id: 'Portofolio', en: 'Our Work' },
-                  { id: 'Karir', en: 'Careers' },
-                  { id: 'Kontak', en: 'Contact' }
+                  { id: 'Tentang Kami', en: 'About Us', href: '#' },
+                  { id: 'Portofolio', en: 'Our Work', href: '#portfolio' },
+                  { id: 'Karir', en: 'Careers', href: '#' },
+                  { id: 'Kontak', en: 'Contact', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=fikihrz31@gmail.com' }
                 ].map((link, i) => (
                   <li key={i}>
-                    <a href="#" className="hover:text-accent hover:pl-2 transition-all block">
+                    <a href={link.href} target={link.href.startsWith('http') ? "_blank" : undefined} rel="noreferrer" className="hover:text-accent hover:pl-2 transition-all block">
                       {t(link.id, link.en)}
                     </a>
                   </li>
@@ -94,22 +117,24 @@ export default function Footer() {
             </div>
 
             <div>
-              <h4 className="text-white text-lg font-semibold mb-6">{t('Berlangganan', 'Newsletter')}</h4>
+              <h3 className="text-white text-lg font-semibold mb-6">{t('Berlangganan', 'Newsletter')}</h3>
               <p className="mb-6 leading-relaxed text-sm md:text-base">
                 {t(
                   'Dapatkan info diskon dan artikel tips bisnis terbaru langsung di email Anda.',
                   'Get the latest discount info and business tips articles right in your inbox.'
                 )}
               </p>
-              <form className="flex bg-white/5 rounded-lg p-1 border border-white/10 focus-within:border-primary transition-colors">
+              <form onSubmit={handleSubscribe} className="flex bg-white/5 rounded-lg p-1 border border-white/10 focus-within:border-primary transition-colors">
                 <input 
                   type="email" 
+                  aria-label="Email Address"
                   placeholder="Email Address..." 
                   required 
                   className="flex-1 bg-transparent border-none text-white px-4 py-3 outline-none text-sm"
                 />
                 <button 
                   type="submit" 
+                  aria-label="Subscribe to Newsletter"
                   className="bg-primary hover:bg-secondary w-12 rounded-md flex justify-center items-center text-white transition-colors cursor-pointer"
                 >
                   <Send size={18} />
