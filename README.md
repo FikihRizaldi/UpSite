@@ -1,16 +1,68 @@
-# React + Vite
+# 🚀 UpSite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+  <img src="public/icon.png" alt="UpSite Logo" width="120" />
+</div>
 
-Currently, two official plugins are available:
+<br/>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Welcome to **UpSite**, a modern, blazing fast, and highly interactive Web Development & IT Agency landing page. Built to convert, designed to impress!
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ⚡️ **Blazing Fast**: Powered by Vite and React 18
+- 🎨 **Modern Design**: Styled using the latest Tailwind CSS v4
+- 🎞️ **Smooth Animations**: High-performance scroll animations using Framer Motion (LazyMotion optimized)
+- 📱 **Fully Responsive**: Flawless experience across desktop, tablet, and mobile devices
+- 🔍 **SEO Optimized**: Pre-configured `robots.txt`, dynamic language tags, and high Lighthouse scores
+- ♿️ **Accessible**: Keyboard navigable and screen-reader friendly (Perfect 100 Accessibility Score)
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Framework**: React 18 + Vite
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Deployment**: Vercel Ready
+
+## 📦 Getting Started
+
+### Prerequisites
+Make sure you have Node.js installed (v18+ recommended).
+
+### Installation
+1. Clone the repository
+   ```bash
+   git clone https://github.com/FikihRizaldi/UpSite.git
+   cd UpSite
+   ```
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Run the development server
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and visit `http://localhost:5173`
+
+## 🚀 Building for Production
+
+To create an optimized production build:
+```bash
+npm run build
+npm run preview
+```
+
+## 👨‍💻 Contributors
+
+This project was built collaboratively by an amazing team:
+- **[FikihRizaldi](https://github.com/FikihRizaldi)**
+- **DaffaPmgks**
+- **regianamikom**
+- **Redomas Baegy Hardianathan**
+
+---
+<div align="center">
+Built with ❤️ for a better digital future.
+</div>
