@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
+import { m as motion, useInView, useAnimation } from 'framer-motion';
 
 // Scroll-triggered reveal animation wrapper
 export function ScrollReveal({ children, direction = 'up', delay = 0, className = '' }) {
