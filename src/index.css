@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #7852FF;
+  --color-secondary: #5E35FF;
+  --color-accent: #FDE047;
+  --color-text-dark: #1E293B;
+  --color-text-gray: #64748B;
+  --color-bg-light: #F8FAFC;
+  --color-card-border: #E2E8F0;
+  --font-sans: 'Poppins', sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: var(--color-text-dark);
+  overflow-x: hidden;
+}
+
+/* === Theme Blue Override === */
+body.theme-blue {
+  --color-primary: #1E3A8A;
+  --color-secondary: #2563EB;
+  --color-accent: #F97316;
+  --color-bg-light: #F0F9FF;
+}
+
+/* === Custom Animations === */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(120, 82, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(120, 82, 255, 0.6); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 5s ease-in-out infinite; animation-delay: 1s; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+/* === Wave Shape === */
+.wave-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-bottom svg {
+  display: block;
+  width: calc(120% + 1.3px);
+  height: 120px;
+  transform: translateX(-10%);
+}
