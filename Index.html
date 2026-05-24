@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpSite Studio - Professional Web Services</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* === THEMES DEFINITION === */
+        /* Theme 1: Purple (Default) */
+        :root {
+            --primary: #7852FF; 
+            --secondary: #5E35FF; 
+            --accent: #FDE047;
+            --text-dark: #1E293B;
+            --text-gray: #64748B;
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --card-border: #E2E8F0;
+        }
+
+        /* Theme 2: Blue & Orange */
+        body.theme-blue {
+            --primary: #1E3A8A; 
+            --secondary: #2563EB; 
+            --accent: #F97316; 
+            --bg-light: #F0F9FF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--white); color: var(--text-dark); overflow-x: hidden; transition: 0.3s; }
+        
+        /* Language Display Logic */
+        body.lang-id .en { display: none !important; }
+        body.lang-en .id { display: none !important; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* === NAVBAR === */
+        nav { 
+            position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
+            padding: 24px 0;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: var(--white); font-size: 24px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px;}
+        .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--white); }
+        
+        /* Toggles */
+        .controls { display: flex; gap: 12px; }
+        .toggle-btn {
+            background: rgba(255,255,255,0.2); color: var(--white); border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
+            transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .toggle-btn:hover { background: var(--white); color: var(--primary); }
+
+        /* === HERO SECTION === */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 160px 0 200px; position: relative; transition: 0.5s;
+        }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .hero-text h1 { color: var(--white); font-size: 46px; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+        .hero-text h1 span { position: relative; display: inline-block; }
+        .hero-text h1 span::after {
+            content: ''; position: absolute; bottom: 8px; left: 0; width: 100%; height: 8px;
+            background: var(--accent); z-index: -1; border-radius: 4px; transition: 0.5s;
+        }
+        .hero-text p { color: rgba(255,255,255,0.9); font-size: 16px; line-height: 1.6; margin-bottom: 32px; max-width: 90%; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: transparent; color: var(--white); border: 1px solid var(--white);
+            padding: 14px 32px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: 0.3s;
+        }
+        .btn-primary:hover { background: var(--white); color: var(--primary); }
+
+        /* HERO MOCKUP */
+        .hero-mockup { position: relative; width: 100%; height: 300px; }
+        .laptop {
+            position: absolute; right: 40px; top: 0; width: 450px; height: 280px;
+            background: #F1F5F9; border-radius: 12px 12px 0 0; border: 12px solid #CBD5E1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-bottom: none; overflow: hidden;
+        }
+        .laptop-screen { background: #0F172A; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; }
+        .laptop-base { position: absolute; right: 20px; top: 280px; width: 490px; height: 12px; background: #94A3B8; border-radius: 0 0 12px 12px; z-index: 2; }
+        .phone {
+            position: absolute; right: 0; bottom: -20px; width: 120px; height: 240px;
+            background: var(--white); border-radius: 20px; border: 8px solid #E2E8F0;
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.2); z-index: 3;
+        }
+        .phone-screen { background: var(--secondary); width: 100%; height: 100%; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: white; font-size: 12px; }
+
+        /* WAVE */
+        .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; }
+        .wave-bottom svg { display: block; width: calc(120% + 1.3px); height: 120px; transform: translateX(-10%); }
+        .wave-bottom .shape-fill { fill: var(--white); }
+
+        /* === SERVICES === */
+        .services { padding: 80px 0; text-align: center; }
+        .section-title { font-size: 28px; color: var(--primary); margin-bottom: 16px; font-weight: 700; transition: 0.3s; }
+        .section-desc { font-size: 14px; color: var(--text-gray); max-width: 600px; margin: 0 auto 40px; }
+        
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .service-card { padding: 30px; border: 1px solid var(--card-border); border-radius: 16px; transition: 0.3s; }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-color: var(--primary); }
+        .service-icon {
+            width: 70px; height: 70px; margin: 0 auto 24px;
+            background: var(--bg-light); border-radius: 16px; display: flex; justify-content: center; align-items: center;
+            color: var(--primary); transition: 0.3s;
+        }
+        .service-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+        .service-card p { font-size: 14px; color: var(--text-gray); line-height: 1.6; }
+
+        /* === PORTFOLIO === */
+        .portfolio { padding: 80px 0; background: var(--bg-light); transition: 0.3s; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        .port-item { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .port-img { height: 250px; background: #E2E8F0; display: flex; justify-content: center; align-items: center; color: var(--text-gray); font-size: 24px;}
+        .port-info { padding: 24px; }
+        .port-info h4 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        .port-info p { font-size: 14px; color: var(--text-gray); }
+
+        /* === PRICING === */
+        .pricing { padding: 100px 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: center; }
+        .price-card { border: 1px solid var(--card-border); border-radius: 16px; padding: 40px 30px; text-align: center; }
+        .price-card.popular { background: var(--primary); color: var(--white); transform: scale(1.05); border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .price-card.popular .text-gray-custom { color: rgba(255,255,255,0.8); }
+        .price-name { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        .price-amount { font-size: 36px; font-weight: 700; margin-bottom: 24px; }
+        .price-features { list-style: none; margin-bottom: 32px; }
+        .price-features li { font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-price { display: inline-block; padding: 12px 32px; border-radius: 6px; font-weight: 600; text-decoration: none; width: 100%; border: 1px solid var(--primary); color: var(--primary); transition: 0.3s; }
+        .price-card.popular .btn-price { background: var(--white); color: var(--primary); border: none; }
+        .btn-price:hover { background: var(--primary); color: var(--white); }
+        
+        /* === NEW MODERN FOOTER === */
+        .footer-wrapper { position: relative; background: #0B1120; color: #94A3B8; margin-top: 80px; }
+        
+        /* Pre-Footer Floating CTA */
+        .pre-footer-cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px; padding: 48px; text-align: center; color: white;
+            max-width: 1000px; margin: 0 auto; transform: translateY(-50%);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: 0.5s;
+        }
+        .pre-footer-cta h3 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+        .pre-footer-cta p { font-size: 16px; opacity: 0.9; margin-bottom: 32px; }
+        .btn-cta {
+            display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--primary);
+            padding: 14px 36px; border-radius: 50px; font-weight: 600; font-size: 16px; text-decoration: none;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+
+        /* Main Footer Grid */
+        .modern-footer { padding: 0 0 40px 0; } /* Padding top is handled by pre-footer transform */
+        .footer-grid {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 60px;
+            margin-top: -30px; /* Offset to connect nicely below the floating CTA */
+        }
+        .footer-brand h2 { color: white; font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; margin-bottom: 24px; padding-right: 20px; }
+        
+        /* Social Icons */
+        .social-icons { display: flex; gap: 12px; }
+        .social-btn {
+            display: flex; justify-content: center; align-items: center;
+            width: 40px; height: 40px; background: rgba(255,255,255,0.05); border-radius: 50%;
+            color: #94A3B8; text-decoration: none; transition: 0.3s;
+        }
+        .social-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+        /* Footer Links */
+        .footer-links h4 { color: white; font-size: 16px; font-weight: 600; margin-bottom: 24px; }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 14px; }
+        .footer-links ul li a { color: #94A3B8; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .footer-links ul li a:hover { color: var(--accent); padding-left: 5px; }
+
+        /* Newsletter Input */
+        .newsletter p { font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+        .newsletter-form { display: flex; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 4px; border: 1px solid rgba(255,255,255,0.1); }
+        .newsletter-form input {
+            flex: 1; background: transparent; border: none; color: white; padding: 12px 16px; font-size: 14px; outline: none; font-family: 'Poppins', sans-serif;
+        }
+        .newsletter-form button {
+            background: var(--primary); border: none; color: white; width: 44px; border-radius: 6px; cursor: pointer; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .newsletter-form button:hover { background: var(--secondary); }
+
+        .footer-bottom {
+            text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 14px;
+        }
+
+        @media (max-width: 968px) {
+            .hero-grid, .services-grid, .portfolio-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .hero-mockup { display: none; }
+            .hero { padding: 140px 0 100px; text-align: center; }
+            .nav-links { display: none; }
+            .price-card.popular { transform: scale(1); }
+            
+            /* Responsive Footer */
+            .pre-footer-cta { padding: 32px 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; margin-top: -20px; }
+        }
+    </style>
+</head>
+<body class="lang-id theme-purple">
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo"><i data-lucide="layout-template"></i> UpSite</a>
+            
+            <div class="controls">
+                <button class="toggle-btn" onclick="toggleTheme()">
+                    <span class="id">🎨 Ubah Tema</span>
+                    <span class="en">🎨 Change Theme</span>
+                </button>
+                <button class="toggle-btn" onclick="toggleLang()">
+                    🌐 EN / ID
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1 class="id">Jasa Pembuatan<br><span>Website Profesional</span></h1>
+                <h1 class="en">Professional<br><span>Website Development</span></h1>
+                <p class="id">Melayani pembuatan website, website maintenance, jasa desain grafis, dan portofolio dengan hasil terbaik untuk skala bisnis Anda.</p>
+                <p class="en">We provide website development, maintenance, graphic design, and portfolio creation with the best results for your business scale.</p>
+                <a href="#pricing" class="btn-primary">
+                    <span class="id">Lihat Paket Website</span>
+                    <span class="en">View Packages</span>
+                    <i data-lucide="chevron-right" size="18"></i>
+                </a>
+            </div>
+            <div class="hero-mockup">
+                <div class="laptop"><div class="laptop-screen">WEB PORTFOLIO</div></div>
+                <div class="laptop-base"></div>
+                <div class="phone"><div class="phone-screen">MOBILE</div></div>
+            </div>
+        </div>
+        <div class="wave-bottom">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </header>
+
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="id">Layanan Utama Kami</span>
+                <span class="en">Our Main Services</span>
+            </h2>
+            <p class="section-desc">
+                <span class="id">Kami mendedikasikan diri untuk memberikan solusi digital yang tepat sasaran.</span>
+                <span class="en">We dedicate ourselves to providing targeted digital solutions.</span>
+            </p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="monitor" size="32"></i></div>
+                    <h3>Web Design</h3>
+                    <p class="id">Website untuk bisnis kecil menengah, company profile, dan katalog produk.</p>
+                    <p class="en">Websites for small and medium businesses, company profiles, and product catalogs.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="shopping-cart" size="32"></i></div>
+                    <h3 class="id">Toko Online</h3>
+                    <h3 class="en">E-Commerce</h3>
+                    <p class="id">Sistem toko online terintegrasi dengan keranjang belanja dan gateway pembayaran.</p>
+                    <p class="en">Integrated online store systems with shopping carts and payment gateways.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i data-lucide="pen-tool" size="32"></i></div>
+                    <h3>UI / UX Design</h3>
+                    <p class="id">Perancangan antarmuka pengguna yang modern, interaktif, dan mudah digunakan.</p>
+                    <p class="en">Designing modern, interactive, and user-friendly user interfaces.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">
+                <span class="id">Karya Terbaru</span>
+                <span class="en">Recent Works</span>
+            </h2>
+            <p class="section-desc" style="text-align: center;">
+                <span class="id">Beberapa project website yang telah berhasil kami rilis.</span>
+                <span class="en">Some of the website projects we have successfully launched.</span>
+            </p>
+            <div class="portfolio-grid">
+                <div class="port-item">
+                    <div class="port-img"><i data-lucide="image" size="48"></i></div>
+                    <div class="port-info">
+                        <h4>Bali Villa Resort</h4>
+                        <p class="id">Website pemesanan hotel & villa.</p>
+                        <p class="en">Hotel & villa booking website.</p>
+                    </div>
+                </div>
+                <div class="port-item">
+                    <div class="port-img"><i data-lucide="image" size="48"></i></div>
+                    <div class="port-info">
+                        <h4>TechCorp Agency</h4>
+                        <p class="id">Company profile untuk agensi teknologi.</p>
+                        <p class="en">Company profile for a tech agency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">
+                <span class="id">Paket Transparan</span><span class="en">Transparent Pricing</span>
+            </h2>
+            <p class="section-desc" style="text-align: center;">
+                <span class="id">Pilih paket yang paling sesuai dengan kebutuhan operasional Anda.</span>
+                <span class="en">Choose the package that best fits your operational needs.</span>
+            </p>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="price-name">Starter</div>
+                    <div class="price-amount">Rp 1.5M</div>
+                    <ul class="price-features text-gray-custom">
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Desain 1 Halaman</span><span class="en">1 Page Design</span></li>
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Responsif di HP</span><span class="en">Mobile Responsive</span></li>
+                    </ul>
+                    <a href="#" class="btn-price">Pilih Paket</a>
+                </div>
+                <div class="price-card popular">
+                    <div class="price-name">Professional</div>
+                    <div class="price-amount">Rp 3.5M</div>
+                    <ul class="price-features text-gray-custom">
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Desain 5 Halaman</span><span class="en">5 Pages Design</span></li>
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Panel Admin CMS</span><span class="en">CMS Admin Panel</span></li>
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Optimasi SEO Dasar</span><span class="en">Basic SEO Setup</span></li>
+                    </ul>
+                    <a href="#" class="btn-price"><span class="id">Pilih Paket</span><span class="en">Choose Plan</span></a>
+                </div>
+                <div class="price-card">
+                    <div class="price-name">Enterprise</div>
+                    <div class="price-amount">Custom</div>
+                    <ul class="price-features text-gray-custom">
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Toko Online Full</span><span class="en">Full E-Commerce</span></li>
+                        <li><i data-lucide="check" size="16"></i> <span class="id">Integrasi Pembayaran</span><span class="en">Payment Gateway</span></li>
+                    </ul>
+                    <a href="#" class="btn-price">Hubungi Kami</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-wrapper">
+        
+        <div class="container">
+            <div class="pre-footer-cta">
+                <h3 class="id">Siap Membangun Website Impian Anda?</h3>
+                <h3 class="en">Ready to Build Your Dream Website?</h3>
+                
+                <p class="id">Mari diskusikan ide Anda bersama tim ahli kami. Konsultasi gratis sekarang juga.</p>
+                <p class="en">Let's discuss your ideas with our expert team. Get a free consultation today.</p>
+                
+                <a href="#" class="btn-cta">
+                    <i data-lucide="message-circle" size="20"></i>
+                    <span class="id">Hubungi Kami</span>
+                    <span class="en">Contact Us</span>
+                </a>
+            </div>
+        </div>
+
+        <footer class="modern-footer">
+            <div class="container">
+                <div class="footer-grid">
+                    
+                    <div class="footer-brand">
+                        <h2><i data-lucide="layout-template" size="28"></i> UpSite</h2>
+                        <p class="id">Mitra digital terpercaya untuk membangun identitas online yang solid, modern, dan profesional bagi bisnis Anda semenjak tahun 2020.</p>
+                        <p class="en">Your trusted digital partner in building a solid, modern, and professional online identity for your business since 2020.</p>
+                        
+                        <div class="social-icons">
+                            <a href="#" class="social-btn"><i data-lucide="instagram" size="18"></i></a>
+                            <a href="#" class="social-btn"><i data-lucide="twitter" size="18"></i></a>
+                            <a href="#" class="social-btn"><i data-lucide="linkedin" size="18"></i></a>
+                            <a href="#" class="social-btn"><i data-lucide="github" size="18"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-links">
+                        <h4 class="id">Layanan</h4>
+                        <h4 class="en">Services</h4>
+                        <ul>
+                            <li><a href="#">Web Development</a></li>
+                            <li><a href="#">UI/UX Design</a></li>
+                            <li><a href="#">E-Commerce Setup</a></li>
+                            <li><a href="#">SEO Optimization</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-links">
+                        <h4 class="id">Perusahaan</h4>
+                        <h4 class="en">Company</h4>
+                        <ul>
+                            <li><a href="#"><span class="id">Tentang Kami</span><span class="en">About Us</span></a></li>
+                            <li><a href="#"><span class="id">Portofolio</span><span class="en">Our Work</span></a></li>
+                            <li><a href="#"><span class="id">Karir</span><span class="en">Careers</span></a></li>
+                            <li><a href="#"><span class="id">Kontak</span><span class="en">Contact</span></a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-links newsletter">
+                        <h4 class="id">Berlangganan</h4>
+                        <h4 class="en">Newsletter</h4>
+                        <p class="id">Dapatkan info diskon dan artikel tips bisnis terbaru langsung di email Anda.</p>
+                        <p class="en">Get the latest discount info and business tips articles right in your inbox.</p>
+                        
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Email Address..." required>
+                            <button type="submit"><i data-lucide="send" size="18"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    &copy; 2026 UpSite Studio. All rights reserved. Crafted with precision.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('theme-purple')) {
+                body.classList.remove('theme-purple');
+                body.classList.add('theme-blue');
+            } else {
+                body.classList.remove('theme-blue');
+                body.classList.add('theme-purple');
+            }
+        }
+
+        // Language Toggle Functionality
+        function toggleLang() {
+            const body = document.body;
+            if (body.classList.contains('lang-id')) {
+                body.classList.remove('lang-id');
+                body.classList.add('lang-en');
+            } else {
+                body.classList.remove('lang-en');
+                body.classList.add('lang-id');
+            }
+        }
+    </script>
+</body>
+</html>
